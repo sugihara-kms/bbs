@@ -27,6 +27,10 @@
   (render #P"index.html"))
 
 ;;
+;; pages
+(load "src/route/pages.lisp")
+
+;;
 ;; Error pages
 
 (defmethod on-exception ((app <web>) (code (eql 404)))

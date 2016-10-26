@@ -1,6 +1,12 @@
-;;;;---------------------------------------------------------
-;;;; DBへの接続
-;;;;---------------------------------------------------------
-(mito:connect-toplevel :mysql :database-name "bbs_db" :username "root" :password "Kmskms_0123")
+(in-package :bbs.db)
 
-;; (mito:disconnect-toplevel) ; コネクション切断コマンド
+;; DBへの接続を確立する
+(defun connect-database ()
+  (mito:connect-toplevel :mysql
+                    :database-name *database-name*
+                    :username *database-user-name*
+                    :password *database-password*))
+
+(connect-database)
+
+; (mito:disconnect-toplevel) ; コネクション切断コマンド

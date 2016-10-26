@@ -20,3 +20,11 @@
 (defmacro with-connection (conn &body body)
   `(let ((*connection* ,conn))
      ,@body))
+
+;; DB接続
+(load "db/env.lisp")
+(load "db/connect-db.lisp")
+
+;; テーブル定義
+(load "db/t_board.lisp")
+(load "db/t_message.lisp")

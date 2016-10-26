@@ -10,11 +10,10 @@
 ;;;;---------------------------------------------------------
 ;;;; DBの接続とデータ操作
 ;;;;---------------------------------------------------------
-(mito:connect-toplevel :mysql :database-name "bbs_db" :username "root" :password "Kmskms_0123")
+(ql:quickload :bbs)
+(in-package :bbs)
 
-(mito:disconnect-toplevel) ; コネクション切断コマンド
-
-;; CLUD
+;; CLUD例
 (defvar sample-board1
   (make-instance 'board
         :boardid "talk-bbs"
@@ -40,3 +39,21 @@
         :showmessage ""))
 
 (mito:insert-dao sample-board2)
+
+;;;;---------------------------------------------------------
+;;;; DBへのテーブル作成
+;;;;---------------------------------------------------------
+(ql:quickload :bbs)
+(in-package :bbs)
+
+;; テーブル定義の存在確認
+(find-class 'board)
+(find-class 'message)
+
+;; クラス定義からテーブル定義を作成
+(table-definition 'board)
+(table-definition 'message)
+
+;; テーブル作成
+(ensure-table-exists 'board)
+(ensure-table-exists 'message)

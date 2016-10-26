@@ -1,41 +1,8 @@
-;;;;---------------------------------------------------------
-;;;; DBへのテーブル作成
-;;;;---------------------------------------------------------
+(in-package :bbs.db)
 
-;; コネクション確立
-(mito:connect-toplevel :mysql :database-name "bbs_db" :username "root" :password "Kmskms_0123")
+;;; メッセージテーブル
 
-;; テーブル定義
-(defclass board ()
-  ((boardid :col-type (:varchar 32)
-            :primary-key :t
-            :initarg :boardid
-            :accessor board-boardid)
-   (name :col-type (:varchar 128)
-         :initarg :name
-         :accessor board-name)
-   (defaultrange :col-type :integer
-                 :initarg :defaultrange
-                 :accessor board-defaultrange)
-   (defaultrangeindex :col-type :integer
-                      :initarg :defaultrangeindex
-                      :accessor board-defaultrangeindex)
-   (defaultrangethread :col-type :integer
-                       :initarg :defaultrangethread
-                       :accessor board-defaultrangethread)
-   (homepage :col-type (:varchar 128)
-             :initarg :homepage
-             :accessor board-homepage)
-   (css :col-type (:varchar 64)
-        :initarg :css
-        :accessor board-css)
-   (showmessage :col-type (:varchar 64)
-                :initarg :showmessage
-                :accessor board-showmessage))
-  (:metaclass mito:dao-table-class))
-
-(mito:table-definition 'board)
-
+;; スレに紐づくレスを管理するテーブル
 (defclass message ()
   ((serialid :col-type :integer
             :initarg :serialid
@@ -91,15 +58,7 @@
    (:metaclass mito:dao-table-class)
    (:primary-key serialid boardid))
 
-(mito:table-definition 'message)
-
-;; テーブル定義の存在確認
-(find-class 'board)
-(find-class 'message)
-
-;; テーブル作成
-(mito:ensure-table-exists 'board)
-(mito:ensure-table-exists 'message)
-
-;; コネクション切断
-(mito:disconnect-toplevel)
+#|
+;; シンボルのエクスポート
+　　@export 使いたいな
+|#

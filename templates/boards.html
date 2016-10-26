@@ -1,0 +1,44 @@
+{% extends "layouts/default.html" %}
+{% block title %}BBSタイトル{% endblock %}
+{% block content %}
+<div id="main">
+  <h1> boardsタイトル </h1>
+
+{% if true %}Thanks for logging in!{% else %}Please log in.{% endif %}
+{{ x }}
+
+<ul>
+{% for elt in y_list %}
+    <li>{{ elt }}</li>
+{% endfor %}
+</ul>
+
+  <pre>
+    掲示板へようこそ!
+    まずは板を作成してみよう。
+  </pre>
+
+<form action="boards/create" method="post">
+<pre>
+ＩＤ：<input type="text" name="board[boardid]">
+板名：<input type="text" name="board[name]">
+
+１ページ表示数
+日付順表示：<input type="text" name="board[defaultrange]" value="10">
+インデックス表示：<input type="text" name="board[defaultrangeindex]" value="10">
+スレッド表示：<input type="text" name="board[defaultrangethread]" value="10">
+
+閲覧者Webページ：<input type="text" name="board[homepage]" value="sample.hoge.piyo">
+ＣＳＳ：<input type="text" name="board[css]" value="/hpge/piyo">
+１メッセージ表示用のパス：<input type="text" name="board[showmessage]" value="sample.hoge.piyo">
+</pre>
+<p>
+<input type="submit" value="送信する">
+<input type="reset" value="入力内容をリセットする">
+</p>
+</form>
+
+
+
+</div>
+{% endblock %}
