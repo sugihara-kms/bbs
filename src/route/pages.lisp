@@ -2,62 +2,89 @@
 
 ;;; リクエストのURIに対応した処理
 
-;; 掲示板の一覧画面（TODO:新規作成フォームをつける。削除や編集について専用画面を作るかは要検討）
+;; util
+(defun assocdr (key alist)
+  (cdr (assoc key alist :test #'string=)))
+
+;; 掲示板の一覧表示（新規作成フォームも表示）
 @route GET "/boards"
 (defun show-boards (&key _parsed)
-  ;;一覧表示処理
   (format t "一覧表示処理~%")
-  (format t "1 ~S~%" _parsed) ; URIパラメータ取得用
+  (describe _parsed) ; URIパラメータ取得用
 
-  (format nil "~A"  (mapcar #'bbs.db::board-name (mito:select-dao 'bbs.db::board))))
-                                        ;(render #P"xsboards.html" djula-context) ; パラメータは連想リスト
-
+  (render #P"boards.html"
+          (list "board_list" (mito:select-dao 'bbs.db::board)))
+ )
+;; 板の追加
 @route POST "/boards/create"
 (defun create-board (&key _parsed)
-  ;;追加処理
   (format t "追加処理~%")
-  (format t "1 ~S~%" _parsed)
-  (format t "2 ~S~%" (cdr (assoc "board" _parsed :test #'string=)))
-  (format t "3 ~S~%" (cdr (assoc "name" (cdar _parsed) :test #'string=)))
+  (describe _parsed)
 
-  (let ((board-value
-         (cdr (assoc "board" _parsed :test #'string=))))
-    (defun assoc-board (key)
-      (cdr (assoc key board-value :test #'string=)))
+  (let ((board-list (assocdr "board" _parsed)))
+    (describe board-list)
+    (labels ((assoc-board (key) (assocdr key board-list)))
+      (mito:insert-dao
+        (make-instance 'bbs.db::board
+          :boardid (assoc-board "boardid")
+          :name (assoc-board "name") ;UTF-8 -> ISO8859-1 -> UTF-8と変換されているようで文字が化ける。。。
+          :defaultrange (assoc-board "defaultrange")
+          :defaultrangeindex (assoc-board "defaultrangeindex")
+          :defaultrangethread (assoc-board "defaultrangethread")
+          :homepage (assoc-board "homepage")
+          :css (assoc-board "css")
+          :showmessage (assoc-board "showmessage")))))
+  (redirect "/boards"))
 
-    (defvar new-board
-      (make-instance 'bbs.db::board
-        :boardid (assoc-board "boardid")
-        :name (assoc-board "name") ;UTF-8 -> ISO8859-1 -> UTF-8と変換されているようで文字が化ける。。。
-        :defaultrange (assoc-board "defaultrange")
-        :defaultrangeindex (assoc-board "defaultrangeindex")
-        :defaultrangethread (assoc-board "defaultrangethread")
-        :homepage (assoc-board "homepage")
-        :css (assoc-board "css")
-        :showmessage (assoc-board "showmessage")))
-
-    (mito:insert-dao new-board)
-
-  (render #P"boards.html")))
-
+;; 板の編集
 @route POST "/boards/update"
-(defun update-board ()
-  ;; 編集処理
+(defun update-board (&key _parsed)
   (format t "編集処理")
-  (render #P"boards.html"))
+  (describe _parsed)
 
+  (redirect "/boards"))
+
+;; 板の削除
 @route POST "/boards/delete"
-(defun delete-board ()
-  ;; 削除処理
+(defun delete-board (&key _parsed)
   (format t "削除処理")
-  (render #P"boards.html"))
+  (describe _parsed)
 
-;; 選択した掲示板内のスレッド一覧画面（）
-@route GET "/boards/"
-(defun index ()
-  (render #P"boards.html"))
+  (redirect "/boards"))
 
-@route GET "/hello"
-(defun say-hello (&key (|name| "Guest"))
-  (format nil "Hello, ~A" |name|)
-  (render #P"sample.html"))
+;; 選択した掲示板内のスレッド一覧表示
+@route GET "/messages"
+(defun show-messages (&key _parsed)
+  (format t "一覧表示処理~%")
+  (describe _parsed) ; URIパラメータ取得用
+
+  (render #P"messages.html"
+          (list "message_list" (mito:select-dao 'bbs.db::message)))
+ )
+
+
+
+#|
+;; CL−MARKUPの併用 (Djulaの{{ inner_contents|safe }}タグに表示可能)
+@route GET "/markup_"
+(defun show-boards (&key _parsed)
+  (format t "一覧表示処理~%")
+  (describe _parsed) ; URIパラメータ取得用
+
+ (defvar inner-contents
+    (cl-markup:markup
+      (:head (:title "Welcome to Caveman!"))
+      (:body "Blah blah blah.")
+      (:ul
+        (loop for name in '("Eitarow Fukamachi"
+                            "Tomohiro Matsuyama")
+              collect (cl-markup:markup (:li name))))
+      (:p "Tiffany & Co.,Ltd")
+     )
+   )
+
+  (render #P"boards.html"
+          (append (list "board_list" (mito:select-dao 'bbs.db::board))
+                  (list "inner_contents" inner-contents)))
+ )
+|#
