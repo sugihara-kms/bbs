@@ -27,4 +27,5 @@
 
 ;; テーブル定義
 (load "db/t_board.lisp")
+(load "db/t_thread.lisp")
 (load "db/t_message.lisp")

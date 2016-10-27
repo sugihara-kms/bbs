@@ -2,63 +2,41 @@
 
 ;;; メッセージテーブル
 
-;; スレに紐づくレスを管理するテーブル
+;; レスを管理するテーブル
 (defclass message ()
-  ((serialid :col-type :integer
-            :initarg :serialid
-            :accessor message-serialid)
-   (boardid :col-type (:varchar 32)
-            :initarg :boardid
-            :accessor message-boardid)
-   (posteddate :col-type :timestamp
-            :initarg :posteddate
-            :accessor message-posteddate)
-   (name :col-type (:varchar 64)
+  ((threadid :col-type (:varchar 32) ; スレid
+             :initarg :threadid
+             :accessor message-threadid)
+   (name :col-type (:varchar 64) ; 投稿者名
          :initarg :name
          :accessor message-name)
-   (mailaddress :col-type (:varchar 64)
+   (mailaddress :col-type (:varchar 64) ; メール欄
          :initarg :mailaddress
          :accessor message-mailaddress)
-   (url :col-type (:varchar 64)
-        :initarg :url
-        :accessor message-url)
-   (subject :col-type (:varchar 128)
-         :initarg :subject
-         :accessor message-subject)
-   (message :col-type :text
+   (message :col-type :text ; 本文
          :initarg :message
          :accessor message-message)
-   (altermessage :col-type :text
-         :initarg :altermessage
-         :accessor message-altermessage)
-   (password :col-type (:varchar 64)
+   (password :col-type (:varchar 64) ; 削除用パスワード
         :initarg :password
         :accessor message-password)
-   (preformatted :col-type :bool
-        :initarg :preformatted
-        :accessor message-preformatted)
-   (deleted :col-type :bool
-        :initarg :deleted
-        :accessor message-deleted)
-   (parent :col-type :integer
-            :initarg :parent
-            :accessor message-parent)
-   (top :col-type :integer
-            :initarg :top
-            :accessor message-top)
-   (ipaddress :col-type (:varchar 32)
+   (ipaddress :col-type (:varchar 32) ; 投稿者ＩＰ
             :initarg :ipaddress
             :accessor message-ipaddress)
-   (remotehost :col-type (:varchar 64)
+   (remotehost :col-type (:varchar 64) ; 投稿者ホスト名
             :initarg :remotehost
             :accessor message-remotehost)
-   (useragent :col-type (:varchar 64)
+   (useragent :col-type (:varchar 64) ; 投稿者ＵＡ
             :initarg :useragent
             :accessor message-useragent))
-   (:metaclass mito:dao-table-class)
-   (:primary-key serialid boardid))
+   (:metaclass mito:dao-table-class))
 
-#|
 ;; シンボルのエクスポート
-　　@export 使いたいな
-|#
+(export '(message
+          message-threadid
+          message-name
+          message-mailaddress
+          message-message
+          message-password
+          message-ipaddress
+          message-remotehost
+          message-useragent))

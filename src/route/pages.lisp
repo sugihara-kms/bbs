@@ -13,7 +13,7 @@
   (describe _parsed) ; URIパラメータ取得用
 
   (render #P"boards.html"
-          (list "board_list" (mito:select-dao 'bbs.db::board)))
+          (list "board_list" (mito:select-dao 'board)))
  )
 ;; 板の追加
 @route POST "/boards/create"
@@ -25,15 +25,9 @@
     (describe board-list)
     (labels ((assoc-board (key) (assocdr key board-list)))
       (mito:insert-dao
-        (make-instance 'bbs.db::board
-          :boardid (assoc-board "boardid")
+        (make-instance 'board
           :name (assoc-board "name") ;UTF-8 -> ISO8859-1 -> UTF-8と変換されているようで文字が化ける。。。
-          :defaultrange (assoc-board "defaultrange")
-          :defaultrangeindex (assoc-board "defaultrangeindex")
-          :defaultrangethread (assoc-board "defaultrangethread")
-          :homepage (assoc-board "homepage")
-          :css (assoc-board "css")
-          :showmessage (assoc-board "showmessage")))))
+          ))))
   (redirect "/boards"))
 
 ;; 板の編集
