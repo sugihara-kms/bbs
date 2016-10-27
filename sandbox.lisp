@@ -58,26 +58,21 @@
 
 ;; パスワードはハッシュ化して保存したいね。比較時もハッシュ値で。
 (insert-dao
- (make-instance 'message
+  (make-instance 'message
                 :threadid (id 'thread "【ラウンジ】テストスレ")
                 :name "名無し"
                 :mailaddress ":sage"
                 :message "初カキコ"
-                :password "pass"
-                :ipaddress "192.16.0.1"
-                :remotehost "p5312095-ipngnfx01marunouchi.tokyo.ocn.ne.jp"
-                :useragent "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36 OPR/32.0.1948.25"
+   )
+ )
 (insert-dao
- (make-instance 'message
+  (make-instance 'message
                 :threadid (id 'thread "【ラウンジ】テストスレ")
                 :name "名無し"
                 :mailaddress ":sage"
                 :message "１乙"
-                :password "pass"
-                :ipaddress "192.16.0.2"
-                :remotehost "p5312095-ipngnfx01marunouchi.tokyo.ocn.ne.jp"
-                :useragent "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36 OPR/32.0.1948.25"
- ))
+   )
+ )
 
 
 

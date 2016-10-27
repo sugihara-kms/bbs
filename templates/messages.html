@@ -1,31 +1,25 @@
 {% extends "layouts/default.html" %}
-{% block title %}MENU{% endblock %}
+{% block title %}{{ thread.name }}{% endblock %}
 {% block content %}
 <div id="main">
   <h3> 現在の掲示板一覧 </h3>
   <ul >
     {% for message in message_list %}
-    <a href="messages/{{ message.messageid }}">{{ message.name }}</a><br />
+    <pre>
+      名前：{{ message.name }}  メール：{{ message.mailaddress }}
+      本文：
+      {{ message.message }}
+    </pre>
     {% endfor %}
   </ul>
 
   <h3> 新規作成 </h3>
-  <form action="/message/create" method="post">
+  <form action="/messages/create" method="post">
     <pre>
-      ＩＤ：<input type="text" name="message[boardid]">
-      板名：<input type="text" name="message[name]">
+      名前：<input type="text" name="message[name]"> メール：<input type="text" name="message[mailaddress]">
+      本文：
+      <textarea name="message[message]" rows="4" cols="40">ここに発言を記載してください</textarea>
     </pre>
-    <p hidden>
-      １ページ表示数
-      日付順表示：<input type="text" name="message[defaultrange]" value="10">
-      インデックス表示：<input type="text" name="message[defaultrangeindex]" value="10">
-      スレッド表示：<input type="text" name="message[defaultrangethread]" value="10">
-
-      投稿者情報
-      ＩＰアドレス：<input type="text" name="message[ipaddress]" value="sample.hoge.piyo">
-      リモートホスト名：<input type="text" name="message[remotehost]" value="/hpge/piyo">
-      ユーザエージェント：<input type="text" name="message[useragent]" value="sample.hoge.piyo">
-    </p>
     <p>
       <input type="submit" value="送信する">
       <input type="reset" value="入力内容をリセットする">

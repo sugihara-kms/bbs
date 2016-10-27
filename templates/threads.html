@@ -1,43 +1,23 @@
 {% extends "layouts/default.html" %}
-{% block title %}スレッド一覧{% endblock %}
+{% block title %}{{ board.name }}{% endblock %}
 {% block content %}
 <div id="main">
-  <h1> thread一覧画面 </h1>
- 
-  <pre>
-    (* 現在の掲示板 *)を表示中。
-    まずはスレッドを立ててみよう。
-  </pre>
+  <h3> 現在のスレッド一覧 </h3>
+  <ul >
+    {% for thread in thread_list %}
+    <a href="/threads/{{ thread.id }}">{{ thread.name }}</a><br />
+    {% endfor %}
+  </ul>
 
-<form action="threads/create" method="post">
-<pre>
-シリアルＩＤ：<input type="text" name="thread[serialid]">
-ボードＩＤ：<input type="text" name="thread[boardid]">
-投稿日付：<input type="text" name="thread[posteddate]">
-投稿者：<input type="text" name="thread[name]">
-メールアドレス：<input type="text" name="thread[mailaddress]">
-ＵＲＬ：<input type="text" name="thread[url]">
-件名：<input type="text" name="thread[subject]">
-投稿内容：<input type="text" name="thread[message]">
-強制削除時の代替メッセージ：<input type="text" name="thread[altermessage]">
-パスワード：<input type="text" name="thread[password]">
-\<pre>で囲むか：<input type="text" name="thread[preformatted]">
-削除フラグ：<input type="text" name="thread[deleted]">
-親メッセージ：<input type="text" name="thread[parent]">
-スレッドのトップ：<input type="text" name="thread[top]">
-
-投稿者情報
-ＩＰアドレス：<input type="text" name="thread[ipaddress]">
-リモートホスト名：<input type="text" name="thread[remotehost]">
-ユーザーエージェント：<input type="text" name="thread[userragent]">
-</pre>
-<p>
-<input type="submit" value="送信する">
-<input type="reset" value="入力内容をリセットする">
-</p>
-</form>
-
-
-
+  <h3> 新規作成 </h3>
+  <form action="/threads/create" method="post">
+    <pre>
+      スレッド名：<input type="text" name="thread[name]">
+    </pre>
+    <p>
+      <input type="submit" value="送信する">
+      <input type="reset" value="入力内容をリセットする">
+    </p>
+  </form>
 </div>
 {% endblock %}

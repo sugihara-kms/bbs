@@ -5,7 +5,7 @@
   <h3> 現在の掲示板一覧 </h3>
   <ul >
     {% for board in board_list %}
-    <a href="boards/{{ board.id }}">{{ board.name }}</a><br />
+    <a href="/boards/{{ board.id }}">{{ board.name }}</a><br />
     {% endfor %}
   </ul>
 
