@@ -27,8 +27,8 @@
          (make-instance 'thread
                         :boardid boardid
                         :name (assoc-thread "name") ;UTF-8 -> ISO8859-1 -> UTF-8と変換されているようで文字が化ける。。。
-                        )))
-        (redirect (format nil "/boards/~A" boardid)))))
+                        ))
+        (redirect (format nil "/boards/~A" boardid))))))
 
 ;; スレッドの編集(TODO:処理の実装)
 @route POST "/threads/update"
