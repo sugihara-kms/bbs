@@ -28,7 +28,10 @@
 
 ;;
 ;; pages
-(load "src/route/pages.lisp")
+(load "src/route/util.lisp")
+(load "src/route/boards.lisp")
+(load "src/route/threads.lisp")
+(load "src/route/messages.lisp")
 
 ;;
 ;; Error pages

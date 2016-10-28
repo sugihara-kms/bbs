@@ -11,6 +11,9 @@
 
   <h3> 新規作成 </h3>
   <form action="/threads/create" method="post">
+    <p hidden>
+      板ＩＤ：<input type="hidden" name="thread[boardid]" value="{{ board.id }}">
+    </p>
     <pre>
       スレッド名：<input type="text" name="thread[name]">
     </pre>

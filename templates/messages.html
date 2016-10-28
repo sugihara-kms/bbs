@@ -2,28 +2,24 @@
 {% block title %}{{ thread.name }}{% endblock %}
 {% block content %}
 <div id="main">
-  <h3> 現在の掲示板一覧 </h3>
-  <ul >
+  <h3> {{ thread.name }} </h3>
+  <dl align="left">
     {% for message in message_list %}
-    <pre>
-      名前：{{ message.name }}  メール：{{ message.mailaddress }}
-      本文：
-      {{ message.message }}
-    </pre>
+      <dt>{{ forloop.counter }}：<a href="mailto:{{ message.mailaddress }}"><b>{{ message.name }}</b></a>：{{ message.created-at|date }} {{ message.created-at|time }}</dt>
+      <dd>{{ message.message }}</dd><br />
     {% endfor %}
-  </ul>
+  </dl>
 
-  <h3> 新規作成 </h3>
+  <hr>
+
   <form action="/messages/create" method="post">
-    <pre>
-      名前：<input type="text" name="message[name]"> メール：<input type="text" name="message[mailaddress]">
-      本文：
-      <textarea name="message[message]" rows="4" cols="40">ここに発言を記載してください</textarea>
-    </pre>
-    <p>
-      <input type="submit" value="送信する">
-      <input type="reset" value="入力内容をリセットする">
+    <p hidden>
+      スレッドＩＤ：<input type="hidden" name="message[threadid]" value="{{ thread.id }}">
     </p>
+    <pre>
+      <input type="submit" value="書き込む"> 名前：<input type="text" name="message[name]"> E-mail：<input type="text" name="message[mailaddress]">
+      <textarea name="message[message]" rows="4" cols="70" /></textarea>
+    </pre>
   </form>
 </div>
 {% endblock %}
