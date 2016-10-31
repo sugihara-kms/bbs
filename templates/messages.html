@@ -6,8 +6,13 @@
 
   <dl align="left">
     {% for message in message_list %}
-    <dt>{{ forloop.counter }}：<a href="mailto:{{ message.mailaddress }}"><b>{{ message.name }}</b></a>：{{ message.created-at|datetime:(:YEAR"年":MONTH"月":DAY"日":HOUR"時":MIN"分":SEC"秒") }}
-    <dd>{{ message.message }}</dd><br />
+    <dt>
+      {{ forloop.counter }}：
+      <a href="mailto:{{ message.mailaddress }}"><b>{{ message.name }}</b></a>：
+      {{ message.timestamp | datetime: (:year "/" :month "/" :day " " :hour ":" :min ":" :sec "." :msec) }}
+      ID:{{ message.ipaddress | slice: (0 . 5) }}
+    </dt>
+    <dd><pre>{{ message.body }}</pre></dd><br />
     {% endfor %}
   </dl>
 
@@ -19,7 +24,7 @@
     </p>
     <pre>
       <input type="submit" value="書き込む"> 名前：<input type="text" name="message[name]"> E-mail：<input type="text" name="message[mailaddress]">
-      <textarea name="message[message]" rows="4" cols="70" /></textarea>
+      <textarea name="message[body]" rows="4" cols="70" /></textarea>
    </pre>
   </form>
 </div>

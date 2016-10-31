@@ -13,6 +13,8 @@
                :envy
                :cl-ppcre
                :uiop
+               :local-time
+               :ironclad
 
                ;; for @route annotation
                :cl-syntax-annot

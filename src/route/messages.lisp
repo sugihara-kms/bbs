@@ -6,10 +6,18 @@
   (format t "メッセージ一覧表示処理~%")
   (describe id) ; URIパラメータ取得用
 
+  ;; データ整形
+  (defun message-format (message_list)
+    (if (null message_list)
+        nil
+        (progn (dolist (m message_list message_list)
+                 (setf (message-ipaddress m) (hash-password (message-ipaddress m)))
+                 (setf (message-timestamp m) (local-time:parse-timestring (message-timestamp m)))))))
+
   (let ((threadid (parse-integer id)))
     (render #P"messages.html"
             (append (list "thread" (mito:find-dao 'thread :id threadid))
-                    (list "message_list" (mito:select-dao 'message (where (:= :threadid threadid))))))))
+                    (list "message_list" (message-format (mito:select-dao 'message (where (:= :threadid threadid)))))))))
 
 ;; メッセージの追加
 @route POST "/messages/create"
@@ -27,8 +35,9 @@
                          :threadid threadid
                          :name (assoc-message "name") ;UTF-8 -> ISO8859-1 -> UTF-8と変換されているようで文字が化ける。。。
                          :mailaddress (assoc-message "mailaddress")
-                         :message (assoc-message "message")
-                         ))
+                         :body (assoc-message "body")
+                         :ipaddress (gethash '"x-real-ip" (request-headers *request*))
+                         :timestamp (local-time:format-timestring nil (local-time:now))))
         (redirect (format nil "/threads/~A" threadid))))))
 
 ;; メッセージの編集(TODO)

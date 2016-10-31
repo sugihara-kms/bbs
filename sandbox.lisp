@@ -62,7 +62,9 @@
                 :threadid (id 'thread "【ラウンジ】テストスレ")
                 :name "名無し"
                 :mailaddress ":sage"
-                :message "初カキコ"
+                :body "初カキコ"
+                :ipaddress "xxx.xxx.xxx.xxx"
+                :timestamp "yyyy/MM/dd hh:mm:ss.mmm"
    )
  )
 (insert-dao
@@ -71,6 +73,8 @@
                 :name "名無し"
                 :mailaddress ":sage"
                 :message "１乙"
+                :ipaddress "xxx.xxx.xxx.xxx"
+                :timestamp "yyyy/MM/dd hh:mm:ss.mmm"
    )
  )
 

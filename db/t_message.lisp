@@ -13,9 +13,15 @@
    (mailaddress :col-type (:varchar 64) ; メール欄
          :initarg :mailaddress
          :accessor message-mailaddress)
-   (message :col-type :text ; 本文
-         :initarg :message
-         :accessor message-message))
+   (body :col-type :text ; 本文
+         :initarg :body
+         :accessor message-body)
+   (ipaddress :col-type (:varchar 32) ; IPアドレス
+         :initarg :ipaddress
+         :accessor message-ipaddress)
+   (timestamp :col-type (:varchar 32) ; 書き込み時刻
+         :initarg :timestamp
+         :accessor message-timestamp))
   (:metaclass mito:dao-table-class)
  )
 
@@ -24,4 +30,6 @@
           message-threadid
           message-name
           message-mailaddress
-          message-message))
+          message-body
+          message-ipaddress
+          message-timestamp))
